@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="checkbox" :value="prefCode" @change="onChange">
+    <input type="checkbox" :value="prefCode" @change="onChange" />
     {{ prefName }}
   </label>
 </template>

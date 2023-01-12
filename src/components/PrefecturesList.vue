@@ -1,6 +1,10 @@
 <template>
   <template v-for="prefecture in prefectures" :key="prefecture.prefCode">
-    <PrefectureCheckbox :prefCode="prefecture.prefCode" :prefName="prefecture.prefName" @toggled="onToggled" />
+    <PrefectureCheckbox
+      :prefCode="prefecture.prefCode"
+      :prefName="prefecture.prefName"
+      @toggled="onToggled"
+    />
   </template>
 </template>
 <script lang="js">
