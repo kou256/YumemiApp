@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <!-- 暫定的にリストとして出力 -->
-    <ul>
-      <li v-for="prefecture in prefectures" :key="prefecture.prefCode">
-        {{ prefecture.prefName }}
-      </li>
-    </ul>
-  </div>
+  <template v-for="prefecture in prefectures" :key="prefecture.prefCode">
+    <PrefectureCheckbox :prefCode="prefecture.prefCode" :prefName="prefecture.prefName" @toggled="onToggled" />
+  </template>
 </template>
 <script lang="js">
+import PrefectureCheckbox from './modules/PrefectureCheckbox.vue';
 export default {
   name: 'PrefecturesList',
+  components: {
+    PrefectureCheckbox
+  },
   data() {
     return {
       prefectures: []
@@ -40,10 +39,22 @@ export default {
           if (data.statusCode) {
             throw new Error(`${data.statusCode} ${data.message} ${data.description}`);
           }
-          this.prefectures = data.result;
+
+          // 後で使うプロパティをこの段階で作成しておく
+          this.prefectures = data.result.map((prefecture) => {
+            return {
+              prefCode: prefecture.prefCode,
+              prefName: prefecture.prefName,
+              checked: false
+            }
+          });
         }).catch((error) => {
           console.error(error);
         });
+    },
+    onToggled(event) {
+      // prefCodeは1始まりなので配列のインデックスとして使うために-1
+      this.prefectures[event.prefCode - 1].checked = event.checked;
     }
   }
 }
