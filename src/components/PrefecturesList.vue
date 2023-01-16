@@ -1,11 +1,13 @@
 <template>
-  <template v-for="prefecture in prefectures" :key="prefecture.prefCode">
+  <div class="checkbox-container">
     <PrefectureCheckbox
+      v-for="prefecture in prefectures"
+      :key="prefecture.prefCode"
       :prefCode="prefecture.prefCode"
       :prefName="prefecture.prefName"
       @toggled="onToggled"
     />
-  </template>
+  </div>
   <PrefectureChartLine :data="chartData" :options="options" />
 </template>
 <script lang="js">
@@ -23,7 +25,7 @@ export default {
       labels: [],
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             title: {
@@ -181,3 +183,10 @@ export default {
   }
 }
 </script>
+<style>
+.checkbox-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+}
+</style>
