@@ -15,8 +15,9 @@ html {
 body {
   width: 95vw;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 95vh;
 }
 #app {
   text-align: center;
+  height: 95vh;
 }

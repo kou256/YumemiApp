@@ -1,14 +1,16 @@
 <template>
-  <div class="checkbox-container">
-    <PrefectureCheckbox
-      v-for="prefecture in prefectures"
-      :key="prefecture.prefCode"
-      :prefCode="prefecture.prefCode"
-      :prefName="prefecture.prefName"
-      @toggled="onToggled"
-    />
+  <div class="container">
+    <div class="checkbox-container">
+      <PrefectureCheckbox
+        v-for="prefecture in prefectures"
+        :key="prefecture.prefCode"
+        :prefCode="prefecture.prefCode"
+        :prefName="prefecture.prefName"
+        @toggled="onToggled"
+      />
+    </div>
+    <PrefectureChartLine :data="chartData" :options="options" />
   </div>
-  <PrefectureChartLine :data="chartData" :options="options" />
 </template>
 <script lang="js">
 import PrefectureCheckbox from './modules/PrefectureCheckbox.vue';
@@ -184,6 +186,18 @@ export default {
 }
 </script>
 <style>
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ある程度のサイズ（今回はXGA）を以下の場合に1カラムとする */
+@media screen and (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
 .checkbox-container {
   display: grid;
   width: 100%;
