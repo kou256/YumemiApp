@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <TheHeader title="YumemiApp" />
-    <PrefecturesList />
-  </div>
+  <TheHeader title="YumemiApp" />
+  <PrefecturesList />
 </template>
 <script lang="js">
 import TheHeader from './components/modules/TheHeader.vue';
