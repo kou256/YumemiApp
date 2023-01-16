@@ -1,12 +1,16 @@
 <template>
-  <template v-for="prefecture in prefectures" :key="prefecture.prefCode">
-    <PrefectureCheckbox
-      :prefCode="prefecture.prefCode"
-      :prefName="prefecture.prefName"
-      @toggled="onToggled"
-    />
-  </template>
-  <PrefectureChartLine :data="chartData" :options="options" />
+  <div class="container">
+    <div class="checkbox-container">
+      <PrefectureCheckbox
+        v-for="prefecture in prefectures"
+        :key="prefecture.prefCode"
+        :prefCode="prefecture.prefCode"
+        :prefName="prefecture.prefName"
+        @toggled="onToggled"
+      />
+    </div>
+    <PrefectureChartLine :data="chartData" :options="options" />
+  </div>
 </template>
 <script lang="js">
 import PrefectureCheckbox from './modules/PrefectureCheckbox.vue';
@@ -23,18 +27,32 @@ export default {
       labels: [],
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             title: {
               display: true,
               text: '年度',
+              color: '#003b77'
+            },
+            ticks: {
+              color: '#003b77'
+            },
+            grid: {
+              color: '#003b77'
             },
           },
           y: {
             title: {
               display: true,
               text: '人口数',
+              color: '#003b77'
+            },
+            ticks: {
+              color: '#003b77'
+            },
+            grid: {
+              color: '#003b77'
             },
           }
         },
@@ -43,7 +61,13 @@ export default {
             display: true,
             text: '都道府県の総人口数推移',
             position: 'top',
+            color: '#003b77'
           },
+          legend: {
+          labels: {
+            color: '#003b77'
+          },
+        },
           colors: {
             forceOverride: true,
           }
@@ -161,3 +185,22 @@ export default {
   }
 }
 </script>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ある程度のサイズ（今回はXGA）を以下の場合に1カラムとする */
+@media screen and (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkbox-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+}
+</style>

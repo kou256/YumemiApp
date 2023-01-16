@@ -1,5 +1,7 @@
 <template>
-  <LineChart :data="data" :options="options" />
+  <div class="chart-container">
+    <LineChart :data="data" :options="options" />
+  </div>
 </template>
 <script lang="js">
 import {
@@ -42,3 +44,12 @@ export default {
   },
 }
 </script>
+<style>
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* グラフ用にある程度の高さを確保しておく */
+  min-height: 320px;
+}
+</style>

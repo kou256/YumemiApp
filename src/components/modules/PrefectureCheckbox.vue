@@ -28,3 +28,28 @@ export default {
   }
 }
 </script>
+<style>
+input[type='checkbox'] {
+  appearance: none;
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #003b77;
+  border-radius: 0.2rem;
+  vertical-align: -5px;
+}
+input[type='checkbox']::before {
+  content: '✓';
+  position: absolute;
+  visibility: hidden;
+  color: #38b48b;
+  top: -0.2rem;
+  font-size: 1rem;
+}
+input[type='checkbox']:checked::before {
+  visibility: visible;
+}
+label {
+  color: #003b77;
+}
+</style>
