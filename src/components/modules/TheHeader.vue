@@ -14,3 +14,12 @@ export default {
   }
 }
 </script>
+<style>
+h1 {
+  color: #38b48b;
+  font-size: 2em;
+  text-align: center;
+  margin-block-start: 0.25em;
+  margin-block-end: 0.25em;
+}
+</style>
