@@ -29,12 +29,26 @@ export default {
             title: {
               display: true,
               text: '年度',
+              color: '#003b77'
+            },
+            ticks: {
+              color: '#003b77'
+            },
+            grid: {
+              color: '#003b77'
             },
           },
           y: {
             title: {
               display: true,
               text: '人口数',
+              color: '#003b77'
+            },
+            ticks: {
+              color: '#003b77'
+            },
+            grid: {
+              color: '#003b77'
             },
           }
         },
@@ -43,7 +57,13 @@ export default {
             display: true,
             text: '都道府県の総人口数推移',
             position: 'top',
+            color: '#003b77'
           },
+          legend: {
+          labels: {
+            color: '#003b77'
+          },
+        },
           colors: {
             forceOverride: true,
           }
