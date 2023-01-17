@@ -17,7 +17,7 @@ import PrefectureCheckbox from './modules/PrefectureCheckbox.vue';
 import PrefectureChartLine from './modules/PrefectureChartLine.vue';
 import { getPrefectures, getPopulation } from '../js/resas.js';
 export default {
-  name: 'PrefecturesList',
+  name: 'PrefecturesPage',
   components: {
     PrefectureCheckbox,
     PrefectureChartLine
