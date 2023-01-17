@@ -1,15 +1,15 @@
 <template>
   <TheHeader title="YumemiApp" />
-  <PrefecturesList />
+  <PrefecturesPage />
 </template>
 <script lang="js">
 import TheHeader from './components/modules/TheHeader.vue';
-import PrefecturesList from './components/PrefecturesList.vue';
+import PrefecturesPage from './components/PrefecturesPage.vue';
 export default {
   name: 'App',
   components: {
     TheHeader,
-    PrefecturesList
+    PrefecturesPage
   },
 }
 </script>
