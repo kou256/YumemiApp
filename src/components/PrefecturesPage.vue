@@ -15,8 +15,9 @@
 <script lang="js">
 import PrefectureCheckbox from './modules/PrefectureCheckbox.vue';
 import PrefectureChartLine from './modules/PrefectureChartLine.vue';
+import { getPrefectures, getPopulation } from '../js/resas.js';
 export default {
-  name: 'PrefecturesList',
+  name: 'PrefecturesPage',
   components: {
     PrefectureCheckbox,
     PrefectureChartLine
@@ -76,82 +77,19 @@ export default {
     }
   },
   created() {
-    this.getPrefectures();
+    getPrefectures().then((prefectures) => {
+      // 後で使うプロパティをこの段階で作成しておく
+      this.prefectures = prefectures.map((prefecture) => {
+        return {
+          prefCode: prefecture.prefCode,
+          prefName: prefecture.prefName,
+          population: [],
+          checked: false
+        };
+      });
+    });
   },
   methods: {
-    getPrefectures() {
-      const url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
-      const options = {
-        headers: {
-          'X-API-KEY': import.meta.env.VITE_RESAS_API_KEY // APIキーは.envファイルから読み込む
-        }
-      };
-
-      fetch(url, options)
-        .then((response) => {
-          // OKが返されなければエラー出力
-          if (!response.ok) {
-            throw new Error(`${response.status} ${response.statusText}`);
-          }
-          return response.json();
-        }).then((data) => {
-          // APIからエラーが返された場合はstatusCodeが含まれているのでそれで判定
-          if (data.statusCode) {
-            throw new Error(`${data.statusCode} ${data.message} ${data.description}`);
-          }
-
-          // 後で使うプロパティをこの段階で作成しておく
-          this.prefectures = data.result.map((prefecture) => {
-            return {
-              prefCode: prefecture.prefCode,
-              prefName: prefecture.prefName,
-              population: [],
-              checked: false
-            };
-          });
-        }).catch((error) => {
-          console.error(error);
-        });
-    },
-    getPrefecturePopulation(prefCode) {
-      const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`;
-      const options = {
-        headers: {
-          'X-API-KEY': import.meta.env.VITE_RESAS_API_KEY, // APIキーは.envファイルから読み込む
-        },
-      };
-
-      fetch(url, options)
-        .then((response) => {
-          // OKが返されなければエラー出力
-          if (!response.ok) {
-            throw new Error(`${response.status} ${response.statusText}`);
-          }
-          return response.json();
-        }).then((data) => {
-          // APIからエラーが返された場合はstatusCodeが含まれているのでそれで判定
-          if (data.statusCode) {
-            throw new Error(`${data.statusCode} ${data.message} ${data.description}`);
-          }
-
-          // prefCodeは1始まりなので配列のインデックスとして使うために-1
-          const prefecture = this.prefectures[prefCode - 1];
-
-          // 人口：/result/data/data/value
-          prefecture.population = data.result.data[0].data.map((population) => {
-            return population.value;
-          });
-
-          // ラベルは1度だけ取得すればよいので、すでに取得済みでなければ取得する
-          if (this.labels.length === 0) {
-            this.labels = data.result.data[0].data.map((population) => {
-              return population.year;
-            });
-          }
-        }).catch((error) => {
-          console.error(error);
-        });
-    },
     onToggled(event) {
       // prefCodeは1始まりなので配列のインデックスとして使うために-1
       const prefecture = this.prefectures[event.prefCode - 1];
@@ -159,7 +97,20 @@ export default {
 
       // 人口データが未取得であれば取得する
       if (event.checked && prefecture.population.length === 0) {
-        this.getPrefecturePopulation(event.prefCode);
+        getPopulation(event.prefCode).then((data) => {
+          // 総人口：/result/data[0]/data/value
+          const populationData = data.data[0].data;
+          prefecture.population = populationData.map((population) => {
+            return population.value;
+          });
+
+          // ラベルは1度だけ取得すればよいので、すでに取得済みでなければ取得する
+          if (this.labels.length === 0) {
+            this.labels = populationData.map((population) => {
+              return population.year;
+            });
+          }
+        });
       }
     }
   },
@@ -185,7 +136,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
