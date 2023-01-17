@@ -44,7 +44,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .chart-container {
   position: relative;
   width: 100%;
